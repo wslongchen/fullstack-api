@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+var commons = require("../libs/core/config");
 var app = require('../app');
 var debug = require('debug')('fullstack-api:server');
 var http = require('http');

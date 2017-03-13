@@ -4,18 +4,21 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require("cookie-session");
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+var urls = require('./routes/urls');
 
 var app = express();
 
-///=======路由信息 （接口地址）开始 存放在./routes目录下===========//
-  var routes = require('./routes/index');//home page接口
-  var users = require('./routes/users'); //用户接口
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(session({
+  keys: ["fullstack"]
+}));
 
-  app.use('/', routes); //在app中注册routes该接口 
-  app.use('/users', users);//在app中注册users接口
+///=======路由信息 （接口地址）开始 存放在./routes目录下===========//
+urls.startUrls(app);
 ///=======路由信息 （接口地址 介绍===========//
 
 ///=======模板 开始===========//
@@ -27,13 +30,13 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+
+app.use(session({
+  keys: ["fullstack"]
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
