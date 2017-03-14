@@ -1,5 +1,7 @@
 var cfg = require("./config");
 var process = require("process");
+var menu = require("../routes/menu");
+
 
 Date.prototype.format = function(format) {
 	
@@ -34,6 +36,7 @@ exports.renderTemplate = function(response, templates, res_data) {
 	var response_data = {
 		cfg_webname: cfg.WEB_NAME,
 		cfg_jquery: cfg.JQUERY,	
+		menu : menu.getMenuList.data,
 	};
 	if(res_data != null)
 		response_data.res_data = res_data;

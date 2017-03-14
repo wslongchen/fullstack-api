@@ -33,7 +33,7 @@
                      <div class="ace-head-row">
                          <div id="ace-head-col1" class="ace-head-col text-left">
                              <a id="ace-logo" class="ace-logo" href="index.html">
-                                <img src="img/uploads/brand/logo.svg" alt="ace resume"><span>.Certy</span>
+                                <img src="img/uploads/brand/logo.svg" alt="ace resume"><span>.FullStack</span>
                              </a>
                          </div>
                          
@@ -47,6 +47,9 @@
 										<li><a href="search.html">search</a></li>
 										<li><a href="category.html">category</a></li>
 										<li><a href="contact.html">contact</a></li>
+                                        <%menu.forEach(function(item){%>
+                                            <li><a href="<%=item.url %>">item.menuName</a></li>
+                                        <% }) %>
 									</ul>
                                  </nav>
                              </div>
