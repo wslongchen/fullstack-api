@@ -7,7 +7,9 @@ var app = null;
 
 exports.startUrls = function(app) {
 	this.app=app;
-	app.get("/", index.main);
-	app.get("/login", index.login);
-	app.get("/addUser", user.addUser);
+	app.get("/", index.index);
+	app.get("/api/index", index.main);
+	app.use("/api/v1/login", index.login);
+	app.use("/api/v1/user/addUser", user.addUser);
+	app.use("/api/v1/user/getUserInfoList", user.getUserInfoList);
 };

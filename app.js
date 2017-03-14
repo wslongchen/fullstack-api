@@ -24,7 +24,7 @@ urls.startUrls(app);
 ///=======模板 开始===========//
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 ///=======模板 结束===========//
 
 // uncomment after placing your favicon in /public

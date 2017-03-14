@@ -1,5 +1,5 @@
 var commons = require("../libs/core/common");
-var User = require('./user');
+var config = require("../libs/core/config");
 // 导入MySQL模块
 var mysql = require('mysql');
 var dbConfig = require('../libs/db/mysql');
@@ -7,14 +7,29 @@ var userSQL = require('../libs/db/Usersql');
 var pool = mysql.createPool(dbConfig.mysql );
 var crypto = require('crypto');
 
+//WEB
+exports.index = function(req,res){
+  commons.renderTemplate(res,"index");
+}
+
+
+
+//API
 exports.main = function(req, res) {
 	if(!req.session.sess_admin)	
 		commons.resFail(res, 1, "需要登录才可以访问");
 };
 
 exports.login = function(req, res) {
-	var param = req.query || req.params;
-	var name = param.name;
+
+  var method = req.method;
+  if(method === "GET"){
+    commons.resFail(res, 101, "get请求方式无法接收，请用post提交！");
+    return;
+  }
+
+	var param = req.query || req.params || req.body;
+	var name = param.username;
 	var pwd = param.pwd;
 	
 	if(!name || name == "") {
@@ -26,13 +41,18 @@ exports.login = function(req, res) {
 		return;
 	}
 	var md5 = crypto.createHash('md5');
-    var password = md5.update(pwd).digest('hex');
+  var password = md5.update(pwd).digest('hex');
 
-    pool.getConnection(function(err, connection) {
-    var param = req.query || req.params;
-    connection.query(userSQL.login, [name,password], function(err, result) {
-          if(result) {      
-             if(result.length>0){
+  pool.getConnection(function(err, connection) {
+  var param = req.query || req.params;
+  connection.query(userSQL.login, [name,password], function(err, result) {
+        if(result) {      
+            if(result.length>0){
+              req.session.sess_admin = {
+                name: result.userName,
+                pwd: result.password,
+                createDate: result.createDate
+              };
              	commons.resSuccess(res, "登录成功",result);
              }else{
              	commons.resFail(res, 1, "用户名或密码错误");
@@ -42,5 +62,5 @@ exports.login = function(req, res) {
           }
         connection.release();  
          });
-      });
+    });
 };
