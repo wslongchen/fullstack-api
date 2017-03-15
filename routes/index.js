@@ -4,15 +4,23 @@ var config = require("../libs/core/config");
 var mysql = require('mysql');
 var dbConfig = require('../libs/db/mysql');
 var userSQL = require('../libs/db/Usersql');
+var menu = require('../libs/db/menusql');
 var pool = mysql.createPool(dbConfig.mysql );
 var crypto = require('crypto');
 
 //WEB
 exports.index = function(req,res){
-  commons.renderTemplate(res,"index");
+  pool.getConnection(function(err, connection) {
+    connection.query(menu.getMenuList, [10,0], function(err, result) {
+          if(result) {      
+            data=result; 
+            commons.renderTemplate(res,"index",result);
+          }
+        connection.release();  
+         });
+      });
+  
 }
-
-
 
 //API
 exports.main = function(req, res) {
