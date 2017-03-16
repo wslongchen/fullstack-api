@@ -32,8 +32,6 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 
 
-
-
 app.use(session({
   keys: ["fullstack"]
 }));

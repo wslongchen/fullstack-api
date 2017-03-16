@@ -23,3 +23,24 @@ exports.getMenuList = function(req, res, next){
          });
       });
  };
+
+ //WEB
+exports.production = function(req,res){
+  commons.renderTemplate(res,"production");
+};
+
+exports.member = function(req,res){
+  commons.renderTemplate(res,"member");
+}
+
+exports.search = function(req,res){
+  commons.renderTemplate(res,"search");
+}
+
+exports.blog = function(req,res){
+  commons.renderTemplate(res,"blog");
+}
+
+exports.contact = function(req,res){
+  commons.renderTemplate(res,"contact");
+}

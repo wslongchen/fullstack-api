@@ -10,17 +10,8 @@ var crypto = require('crypto');
 
 //WEB
 exports.index = function(req,res){
-  pool.getConnection(function(err, connection) {
-    connection.query(menu.getMenuList, [10,0], function(err, result) {
-          if(result) {      
-            data=result; 
-            commons.renderTemplate(res,"index",result);
-          }
-        connection.release();  
-         });
-      });
-  
-}
+  commons.renderTemplate(res,"index");
+};
 
 //API
 exports.main = function(req, res) {

@@ -1,6 +1,10 @@
 var cfg = require("./config");
 var process = require("process");
-
+// 导入MySQL模块
+var mysql = require('mysql');
+var dbConfig = require('../db/mysql');
+var menu = require('../db/menusql');
+var pool = mysql.createPool(dbConfig.mysql );
 
 Date.prototype.format = function(format) {
 	
@@ -31,14 +35,28 @@ exports.renderTemplate = function(response, templates, res_data) {
 
 	if(!res_data)
 		res_data = null;
-
 	var response_data = {
 		cfg_webname: cfg.WEB_NAME,
 		cfg_jquery: cfg.JQUERY,	
 	};
-	if(res_data != null)
-		response_data.res_data = res_data;
-	response.render(templates, response_data);
+	pool.getConnection(function(err, connection) {
+    connection.query(menu.getMenuList, [10,0], function(err, result) {
+          if(result) {  
+          	response_data.menu=result;  
+          	if(res_data != null)
+			response_data.res_data = res_data;
+			response.render(templates, response_data);
+          }
+          if(err){
+          	response_data.menu={};  
+          	if(res_data != null)
+			response_data.res_data = res_data;
+			response.render(templates, response_data);
+          }
+        	connection.release();  
+         });
+      });
+	
 };
 
 //仅在这个模块用到
