@@ -3,6 +3,8 @@ var index = require("./index")
 var user = require("./users");
 var menu = require("./menu");
 var production = require("./production");
+var member = require("./member");
+var article = require("./article");
 
 var app = null;
 
@@ -20,4 +22,6 @@ exports.startUrls = function(app) {
 	app.use("/api/v1/user/getUserInfoList", user.getUserInfoList);
 	app.use("/api/v1/menu/getMenuList", menu.getMenuList);
 	app.use("/api/v1/production/getProductionList", production.getProductionList);
+	app.use("/api/v1/member/getMemberList", member.getMemberList);
+	app.use("/api/v1/article/getArticleList", article.getArticleList);
 };

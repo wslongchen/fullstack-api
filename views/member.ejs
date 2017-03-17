@@ -1,70 +1,12 @@
 ﻿<%include header.ejs %>
 						<!-- START: PAGE CONTENT -->
-
     <div class="padd-box">
 
         <section class="section clear-mrg">
             <h2 class="title-lg text-upper">References</h2>
 
             <div class="padd-box-sm clear-mrg">
-                <div class="ref-box brd-btm hreview">
-                    <div class="ref-avatar">
-                        <img alt="" src="/img/uploads/avatar/avatar-54x54-01.png" class="avatar avatar-54 photo" height="54" width="54">
-                    </div>
-
-                    <div class="ref-info">
-                        <div class="ref-author">
-                            <strong>Hattie Maxwell</strong>
-                            <span>West Alexandrine</span>
-                        </div>
-
-                        <blockquote class="ref-cont clear-mrg">
-                            <p>Your brand is the core of your marketing, the central
-                                theme around your products and services.Your brand is not your Logo or your Company Name
-                            </p>
-                        </blockquote>
-                    </div>
-                </div><!-- .ref-box -->
-
-                <div class="ref-box brd-btm hreview">
-                    <div class="ref-avatar">
-                        <img alt="" src="/img/uploads/avatar/avatar-54x54-02.png" class="avatar avatar-54 photo" height="54" width="54">
-                    </div>
-
-                    <div class="ref-info">
-                        <div class="ref-author">
-                            <strong>franklin may</strong>
-                            <span>Modern LLC,HR</span>
-                        </div>
-
-                        <blockquote class="ref-cont clear-mrg">
-                            <p>Your brand is the core of your marketing, the central
-                                theme around your products and services.Your brand is not your Logo or your Company Name
-                            </p>
-                        </blockquote>
-                    </div>
-                </div><!-- .ref-box -->
-
-                <div class="ref-box brd-btm hreview">
-                    <div class="ref-avatar">
-                        <img alt="" src="/img/uploads/avatar/avatar-58x58-default.png" class="avatar avatar-54 photo" height="54" width="54">
-                    </div>
-
-                    <div class="ref-info">
-                        <div class="ref-author">
-                            <strong>edwin ballard</strong>
-                            <span>West Alexandrine</span>
-                        </div>
-
-                        <blockquote class="ref-cont clear-mrg">
-                            <p>Your brand is the core of your marketing, the central
-                                theme around your products and services.Your brand is not your Logo or your Company Name
-                            </p>
-                        </blockquote>
-                    </div>
-                </div><!-- .ref-box -->
-
-
+               <div id="members"></div>
             </div><!-- .padd-box-sm -->
         </section><!-- .section -->
 
@@ -72,16 +14,12 @@
             <h2 class="title-lg text-upper">Clients</h2>
             <div class="padd-box-sm">
                 <ul class="clients">
-                    <li><a href=""><img src="/img/uploads/logos/logo-wordpress.png" alt="WordPress"></a></li><li>
-                        <a href=""><img src="/img/uploads/logos/logo-compass.png" srcset="/img/uploads/logos/logo-compass2x.png 2x" alt="Compass"></a></li><li>
-                        <a href=""><img src="/img/uploads/logos/logo-jquery.png" srcset="/img/uploads/logos/logo-jquery2x.png 2x" alt="jQuery"></a></li><li>
-                        <a href=""><img src="/img/uploads/logos/logo-teaspoon.png" srcset="/img/uploads/logos/logo-teaspoon2x.png 2x" alt="teaspoon"></a></li><li>
-                        <a href=""><img src="/img/uploads/logos/logo-evernote.png" srcset="/img/uploads/logos/logo-evernote2x.png 2x" alt="evernote"></a></li><li>
-                        <a href=""><img src="/img/uploads/logos/logo-bootstrap.png" srcset="/img/uploads/logos/logo-bootstrap2x.png 2x" alt="Bootstrap"></a></li>
+                    <li id="sites"></li>
                 </ul>
             </div><!-- .padd-box-sm -->
         </section><!-- .section -->
     </div><!-- .padd-box -->
-
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="/model/member.js"></script>
 <!-- END: PAGE CONTENT -->
 <%include footer.ejs %>
