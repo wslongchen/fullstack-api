@@ -40,22 +40,24 @@ exports.renderTemplate = function(response, templates, res_data) {
 		cfg_jquery: cfg.JQUERY,	
 	};
 	pool.getConnection(function(err, connection) {
-    connection.query(menu.getMenuList, [10,0], function(err, result) {
+    if(connection){
+		connection.query(menu.getMenuList, [10,0], function(err, result) {
           if(result) {  
           	response_data.menu=result;  
           	if(res_data != null)
 			response_data.res_data = res_data;
 			response.render(templates, response_data);
           }
-          if(err){
+        	connection.release();  
+         });
+      }
+      if(err){
           	response_data.menu={};  
           	if(res_data != null)
 			response_data.res_data = res_data;
 			response.render(templates, response_data);
           }
-        	connection.release();  
-         });
-      });
+    });
 	
 };
 

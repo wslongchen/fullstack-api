@@ -10,9 +10,11 @@ var crypto = require('crypto');
 
 //WEB
 exports.index = function(req,res){
-  commons.renderTemplate(res,"index");
+  commons.renderTemplate(res,"index",{user:req.session.sess_admin?req.session.sess_admin:''});
 };
-
+exports.manage = function(req,res){
+  commons.renderTemplate(res,"manage",{user:req.session.sess_admin?req.session.sess_admin:''});
+};
 //API
 exports.main = function(req, res) {
 	if(!req.session.sess_admin)	
@@ -20,6 +22,11 @@ exports.main = function(req, res) {
 };
 
 exports.login = function(req, res) {
+  if(!req.session.sess_admin) 
+    commons.renderTemplate(res,"login");
+};
+
+exports.loginUser = function(req, res) {
 
   var method = req.method;
   if(method === "GET"){
@@ -27,7 +34,7 @@ exports.login = function(req, res) {
     return;
   }
 
-	var param = req.query || req.params || req.body;
+	var param = req.body;
 	var name = param.username;
 	var pwd = param.pwd;
 	
@@ -44,7 +51,8 @@ exports.login = function(req, res) {
 
   pool.getConnection(function(err, connection) {
   var param = req.query || req.params;
-  connection.query(userSQL.login, [name,password], function(err, result) {
+  if(connection){
+    connection.query(userSQL.login, [name,password], function(err, result) {
         if(result) {      
             if(result.length>0){
               req.session.sess_admin = {
@@ -52,14 +60,18 @@ exports.login = function(req, res) {
                 pwd: result.password,
                 createDate: result.createDate
               };
-             	commons.resSuccess(res, "登录成功",result);
+              commons.resSuccess(res, "登录成功",result);
              }else{
-             	commons.resFail(res, 1, "用户名或密码错误");
+              commons.resFail(res, 1, "用户名或密码错误");
              }
           }else{
-            commons.resFail(res, 1, "用户名或密码错误");
+            commons.resFail(res, 1, "用户名或密码错误"+err);
           }
         connection.release();  
          });
+      }
+      if(err){
+        commons.resFail(res, 1, "服务器出错"+err);
+      }
     });
 };

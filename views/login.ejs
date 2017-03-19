@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>后台管理</title>
+  <title>FullStack后台管理</title>
   <style type="text/css" rel="stylesheet">
     html,body{width:100%;height:100%;margin:0;padding:0;font-family:"lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;}
     .header{height:40px;width:100%;background-color:#242424;position:fixed;}
@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="header">
-  <div class="header_title"><a href="/">后台管理系统</a></div>
+  <div class="header_title"><a href="/">FullStack后台管理系统</a></div>
 </div>
 <div class="panel">
   <div class="login_input">
@@ -30,7 +30,7 @@
     登录
   </div>
 </div>
-<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 
     $('#btn').on('click', function(){
@@ -38,24 +38,23 @@
       var password = $('#password').val();
       var obj = {
         username: username,
-        password: password
+        pwd: password
       };
       $.ajax({
         type: 'POST',
-        url: '/data/login',
+        url: '/api/v1/login',
         data: obj,
         success: function(data){
           console.log(data)
-          if(data.status){
-            window.location.href = '/';
+          if(data.code==0){
+            window.location.href = '/manage';
           }else{
-            alert('登录失败');
+            alert(data.msg);
           }
         },
         error: function(){
           alert('登录失败');
-        },
-        dataType: 'json'
+        }
       });
     });
 </script>

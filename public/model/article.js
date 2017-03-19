@@ -8,8 +8,10 @@ $(function() {
 				url : url,
 				traditional : true,
 				success : function(rs) {
-					if(rs){
+					if(rs.code ==0){
 						bindData(rs.data);
+					}else{
+						$("#articles").append("<label>暂无</label>");
 					}
 				}
 				

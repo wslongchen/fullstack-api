@@ -18,7 +18,8 @@ exports.addUser = function(req, res, next){
     commons.resFail(res, 1, "需要登录才可以访问");
   else {
     pool.getConnection(function(err, connection) {  
-    var param = req.query || req.params;   
+        if(connection){
+          var param = req.query || req.params;   
     var md5 = crypto.createHash('md5');
     var password = md5.update(param.pwd).digest('hex');
     var date = new Date();
@@ -38,6 +39,10 @@ exports.addUser = function(req, res, next){
           }
         connection.release();  
          });
+        }
+        if(err){
+          commons.resFail(res,1,"服务器连接失败"+err);
+        }
       });
   }
  };
@@ -48,7 +53,8 @@ exports.getUserInfo = function(req, res, next){
     commons.resFail(res, 1, "需要登录才可以访问");
   else {
     pool.getConnection(function(err, connection) {
-    var param = req.query || req.params;
+        if(connection){
+          var param = req.query || req.params;
     connection.query(userSQL.getUserById, [param.uid], function(err, result) {
           if(result) {      
             commons.resSuccess(res, "操作成功",result); 
@@ -57,6 +63,10 @@ exports.getUserInfo = function(req, res, next){
           }
         connection.release();  
          });
+        }
+        if(err){
+          commons.resFail(res,1,"服务器连接失败"+err);
+        }
       });
   }
  };
@@ -71,7 +81,8 @@ exports.getUserInfoList = function(req, res, next){
     var pageNo = param.pageNo || 1;
     var pageSize = param.pageSize || 10;
     var dataBegin = (pageNo -1 )*pageSize;
-    connection.query(userSQL.getUserList, [pageSize,dataBegin], function(err, result) {
+    if(connection){
+      connection.query(userSQL.getUserList, [pageSize,dataBegin], function(err, result) {
           if(result) {      
             commons.resSuccess(res, "操作成功",result); 
           }else{
@@ -79,6 +90,10 @@ exports.getUserInfoList = function(req, res, next){
           }
         connection.release();  
          });
-      });
-  }
+    }
+    if(err){
+      commons.resFail(res,1,"服务器连接失败"+err);
+    }
+    });
+    }
  };

@@ -19,7 +19,8 @@ exports.addArticle = function(req, res, next){
     pool.getConnection(function(err, connection) {  
     var param = req.query || req.params;   
     var date = new Date();
-    connection.query(articleSQL.insert, [param.aid,param.title,param.date,date,param.author,param.type,param.excerpt,content,param.url,param.headerImage,param.resources,param.remark], function(err, result) {
+      if(connection){
+        connection.query(articleSQL.insert, [param.aid,param.title,param.date,date,param.author,param.type,param.excerpt,content,param.url,param.headerImage,param.resources,param.remark], function(err, result) {
           if(result) {      
             commons.resSuccess(res, "插入成功"); 
           }else{
@@ -27,6 +28,10 @@ exports.addArticle = function(req, res, next){
           }
             connection.release();  
          });
+      }
+      if(err){
+        commons.resFail(res,1,"服务器连接失败："+err);
+      }
       });
   }
  };
@@ -35,7 +40,8 @@ exports.addArticle = function(req, res, next){
 exports.getArticle = function(req, res, next){
   pool.getConnection(function(err, connection) {
     var param = req.query || req.params;
-    connection.query(articleSQL.getArticleById, [param.aid], function(err, result) {
+    if(connection){
+      connection.query(articleSQL.getArticleById, [param.aid], function(err, result) {
           if(result) {      
             commons.resSuccess(res, "操作成功",result); 
           }else{
@@ -43,6 +49,10 @@ exports.getArticle = function(req, res, next){
           }
         connection.release();  
          });
+    }
+    if(err){
+      commons.resFail(res,1,"服务器连接失败："+err);
+    }
       });
  };
 
@@ -53,7 +63,8 @@ exports.getArticleList = function(req, res, next){
     var pageNo = param.pageNo || 1;
     var pageSize = param.pageSize || 10;
     var dataBegin = (pageNo -1 )*pageSize;
-    connection.query(articleSQL.getArticleList, [pageSize,dataBegin], function(err, result) {
+    if(connection){
+      connection.query(articleSQL.getArticleList, [pageSize,dataBegin], function(err, result) {
           if(result) {      
             commons.resSuccess(res, "操作成功",result); 
           }else{
@@ -61,5 +72,9 @@ exports.getArticleList = function(req, res, next){
           }
         connection.release();  
          });
+    }
+    if(err){
+       commons.resFail(res,1,"服务器连接失败："+err);
+    }
       });
  };

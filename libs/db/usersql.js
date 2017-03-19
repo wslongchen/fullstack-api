@@ -1,8 +1,8 @@
 var UserSQL = {  
-                insert:'INSERT INTO User(uid,userName,password,createDate,remark) VALUES(?,?,?,?,?)', 
-                getUserList:'SELECT * FROM User LIMIT ? OFFSET ?',  
-                getUserById:'SELECT * FROM User WHERE uid = ? ',
-                getUserByUserName:'SELECT * FROM User WHERE userName = ? ',
-                login: 'SELECT * FROM User WHERE userName = ? and password = ?',
+                insert:'INSERT INTO user(uid,userName,password,createDate,remark) VALUES(?,?,?,?,?)', 
+                getUserList:'SELECT * FROM user LIMIT ? OFFSET ?',  
+                getUserById:'SELECT * FROM user WHERE uid = ? ',
+                getUserByUserName:'SELECT * FROM user WHERE userName = ? ',
+                login: 'SELECT * FROM user WHERE userName = ? and password = ?',
               };
 module.exports = UserSQL;

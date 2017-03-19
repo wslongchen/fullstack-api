@@ -19,7 +19,8 @@ exports.addProduct = function(req, res, next){
     pool.getConnection(function(err, connection) {  
     var param = req.query || req.params;   
     var date = new Date();
-    connection.query(productionSQL.insert, [param.pid,param.name,param.description,param.author,param.type,param.tag,param.content,date,param.url,param.img,param.remark], function(err, result) {
+    if(connection){
+      connection.query(productionSQL.insert, [param.pid,param.name,param.description,param.author,param.type,param.tag,param.content,date,param.url,param.img,param.remark], function(err, result) {
           if(result) {      
             commons.resSuccess(res, "插入成功"); 
           }else{
@@ -27,7 +28,11 @@ exports.addProduct = function(req, res, next){
           }
         connection.release();  
          });
-      });
+    }
+    if(err){
+      commons.resFail(res,1,"服务器连接失败："+err);
+    }
+    });
   }
  };
 
@@ -35,7 +40,8 @@ exports.addProduct = function(req, res, next){
 exports.getProduction = function(req, res, next){
   pool.getConnection(function(err, connection) {
     var param = req.query || req.params;
-    connection.query(productionSQL.getProductById, [param.pid], function(err, result) {
+        if(connection){
+          connection.query(productionSQL.getProductById, [param.pid], function(err, result) {
           if(result) {      
             commons.resSuccess(res, "操作成功",result); 
           }else{
@@ -43,6 +49,10 @@ exports.getProduction = function(req, res, next){
           }
         connection.release();  
          });
+        }
+        if(err){
+          commons.resFail(res,1,"服务器连接失败："+err);
+        }
       });
  };
 
@@ -53,7 +63,8 @@ exports.getProductionList = function(req, res, next){
     var pageNo = param.pageNo || 1;
     var pageSize = param.pageSize || 10;
     var dataBegin = (pageNo -1 )*pageSize;
-    connection.query(productionSQL.getProductList, [pageSize,dataBegin], function(err, result) {
+    if(connection){
+      connection.query(productionSQL.getProductList, [pageSize,dataBegin], function(err, result) {
           if(result) {      
             commons.resSuccess(res, "操作成功",result); 
           }else{
@@ -61,5 +72,9 @@ exports.getProductionList = function(req, res, next){
           }
         connection.release();  
          });
-      });
+    }
+    if(err){
+      commons.resFail(res,1,"服务器连接失败："+err);
+    }
+          });
  };
