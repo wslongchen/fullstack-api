@@ -4457,7 +4457,7 @@ yx-axis
 }
 
 .slick-loading .slick-list {
-    background: url("img/ajax-loader.gif") center center no-repeat;
+    background: url("/img/ajax-loader.gif") center center no-repeat;
 }
 
 .slick-track {

@@ -17,6 +17,7 @@ $(function() {
 });
 
 function bindData(data){
+	var flag=false;
 	 $.each(data, function(index, item) {
 	 	var type="";
 	 	if(item.type == 3){
@@ -28,16 +29,17 @@ function bindData(data){
 	 		if(imgs.length>0){
 	 			
 	 			$.each(imgs, function(index, img) {
-	 				type += "<div><a href='"+item.url+"' rel='bookmark'><img src='"+img+"' alt=''></a></div>";
+	 				type += "<div><a href='"+item.url+"' rel='bookmark'><img src='"+img+"' alt='123'></a></div>";
 	 			});
+	 			flag=true;
 	 		}
 	 		type += "</div>";
 	 	}else if(item.type=1){
 	 		type = "<a href='' rel='bookmark'><figure class='post-figure'><img src='"+item.headerImage+"' alt=''></figure></a>";
 	 	}
 	 	var str="<article class='post hentry'>\
-							<div class='post-media'>"+type+"\
-							</div>\
+							<div class='post-media'>\
+							"+type+"</div>\
 							<div class='padd-box-sm'>\
 								<header class='post-header text-center'>\
 									<h2 class='post-title entry-title text-upper'><a rel='bookmark' href='single-image.html'>"+item.title+"</a></h2>\
@@ -70,5 +72,14 @@ function bindData(data){
 						</article><!-- .post -->";
 	$("#articles").append(str);
 	});
+
+	 if(flag){
+	 	$('.slider').slick({
+            dots: true,
+            fade : true,
+            autoplay:true,
+            autoplaySpeed : 3000
+        });
+	 }
 	
 }

@@ -195,7 +195,10 @@
          * 11.0 - Ace Slider
          */
         $('.slider').slick({
-            dots: true
+            dots: true,
+            fade : true,
+            autoplay: true,
+            autoplaySpeed : 3000
         });
 
         /**
