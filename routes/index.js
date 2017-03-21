@@ -34,44 +34,44 @@ exports.loginUser = function(req, res) {
     return;
   }
 
-	var param = req.body;
-	var name = param.username;
-	var pwd = param.pwd;
-	
-	if(!name || name == "") {
-		commons.resFail(res, 1, "用户名不能为空");
-		return;
-	}
-	if(!pwd || pwd == "") {
-		commons.resFail(res, 1, "密码不能为空");
-		return;
-	}
-	var md5 = crypto.createHash('md5');
+  var param = req.body;
+  var name = param.username;
+  var pwd = param.pwd;
+  
+  if(!name || name == "") {
+    commons.resFail(res, 1, "用户名不能为空");
+    return;
+  }
+  if(!pwd || pwd == "") {
+    commons.resFail(res, 1, "密码不能为空");
+    return;
+  }
+  var md5 = crypto.createHash('md5');
   var password = md5.update(pwd).digest('hex');
 
   pool.getConnection(function(err, connection) {
-  var param = req.query || req.params;
-  if(connection){
-    connection.query(userSQL.login, [name,password], function(err, result) {
+    var param = req.query || req.params;
+    if(connection){
+      connection.query(userSQL.login, [name,password], function(err, result) {
         if(result) {      
-            if(result.length>0){
-              req.session.sess_admin = {
-                name: result.userName,
-                pwd: result.password,
-                createDate: result.createDate
-              };
-              commons.resSuccess(res, "登录成功",result);
-             }else{
-              commons.resFail(res, 1, "用户名或密码错误");
-             }
+          if(result.length>0){
+            req.session.sess_admin = {
+              name: result.userName,
+              pwd: result.password,
+              createDate: result.createDate
+            };
+            commons.resSuccess(res, "登录成功",result);
           }else{
-            commons.resFail(res, 1, "用户名或密码错误"+err);
+            commons.resFail(res, 1, "用户名或密码错误");
           }
+        }else{
+          commons.resFail(res, 1, "用户名或密码错误"+err);
+        }
         connection.release();  
-         });
-      }
-      if(err){
-        commons.resFail(res, 1, "服务器出错"+err);
-      }
-    });
+      });
+    }
+    if(err){
+      commons.resFail(res, 1, "服务器出错"+err);
+    }
+  });
 };

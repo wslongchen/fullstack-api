@@ -17,49 +17,49 @@ exports.addMember = function(req, res, next){
     commons.resFail(res, 1, "需要登录才可以访问");
   else {
     pool.getConnection(function(err, connection) {  
-    var param = req.query || req.params;   
-    var date = new Date();
-    connection.query(memberSQL.insert, [param.pid,param.name,param.description,param.author,param.type,param.tag,param.content,date,param.url,param.img,param.remark], function(err, result) {
-          if(result) {      
-            commons.resSuccess(res, "插入成功"); 
-          }else{
-            commons.resFail(res,1,"插入失败："+err);
-          }
+      var param = req.query || req.params;   
+      var date = new Date();
+      connection.query(memberSQL.insert, [param.pid,param.name,param.description,param.author,param.type,param.tag,param.content,date,param.url,param.img,param.remark], function(err, result) {
+        if(result) {      
+          commons.resSuccess(res, "插入成功"); 
+        }else{
+          commons.resFail(res,1,"插入失败："+err);
+        }
         connection.release();  
-         });
       });
+    });
   }
- };
+};
 
 // 获取作品
 exports.getProduction = function(req, res, next){
   pool.getConnection(function(err, connection) {
     var param = req.query || req.params;
     connection.query(memberSQL.getMemberById, [param.mid], function(err, result) {
-          if(result) {      
-            commons.resSuccess(res, "操作成功",result); 
-          }else{
-            commons.resFail(res,1,"操作失败");
-          }
-        connection.release();  
-         });
-      });
- };
+      if(result) {      
+        commons.resSuccess(res, "操作成功",result); 
+      }else{
+        commons.resFail(res,1,"操作失败");
+      }
+      connection.release();  
+    });
+  });
+};
 
  // 获取作品列表
-exports.getMemberList = function(req, res, next){
+ exports.getMemberList = function(req, res, next){
   pool.getConnection(function(err, connection) {
     var param = req.query || req.params;
     var pageNo = param.pageNo || 1;
     var pageSize = param.pageSize || 10;
     var dataBegin = (pageNo -1 )*pageSize;
     connection.query(memberSQL.getMemberList, [pageSize,dataBegin], function(err, result) {
-          if(result) {      
-            commons.resSuccess(res, "操作成功",result); 
-          }else{
-            commons.resFail(res,1,"操作失败("+err+")");
-          }
-        connection.release();  
-         });
-      });
- };
+      if(result) {      
+        commons.resSuccess(res, "操作成功",result); 
+      }else{
+        commons.resFail(res,1,"操作失败("+err+")");
+      }
+      connection.release();  
+    });
+  });
+};
