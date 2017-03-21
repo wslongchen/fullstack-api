@@ -3,14 +3,15 @@ jQuery.ajaxSetup({
 	});
 $(function() {
 	var editor = CKEDITOR.replace('comment');
-	$('btn_submit2').on('click',function(){
+	$('#btn_submit').on('click',function(){
 		upload();
 	});
 });
 
 function upload(){
 	var data = new FormData();  
-	files = $("#idFile")[0].files;  
+	var files ={};
+	files=$("#idFile")[0].files;  
 	if(files){  
     data.append("file", files[0]);  
 	data.append("CompanyPicAddress","123");    
@@ -27,5 +28,5 @@ $.ajax({
     error:function(XMLHttpRequest, textStatus, errorThrown){  
           
     }  
-}); 
+}); }
 }
