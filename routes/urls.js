@@ -26,4 +26,5 @@ exports.startUrls = function(app) {
 	app.use("/api/v1/production/getProductionList", production.getProductionList);
 	app.use("/api/v1/member/getMemberList", member.getMemberList);
 	app.use("/api/v1/article/getArticleList", article.getArticleList);
+	app.use("/api/v1/article/uploadImage", article.uploadImage);
 };

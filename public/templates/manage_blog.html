@@ -1,0 +1,23 @@
+﻿<script src="../model/manage/blog_list.js"></script>
+<h1 class="page-title">
+					<i class="icon-qq"></i>
+					博客					
+				</h1>
+				
+				<div id="toolbar" class="btn-group">
+					<button id="btn_add" type="button" class="btn btn-default">
+						<span class="icon-plus-sign" aria-hidden="true"></span>新增
+					</button>
+					<button id="btn_edit" type="button" class="btn btn-default">
+						<span class="icon-edit" aria-hidden="true"></span>修改
+					</button>
+					<button id="btn_delete" type="button" class="btn btn-default">
+						<span class="icon-trash" aria-hidden="true"></span>删除
+					</button>
+				</div>
+				<table id="list_article" data-mobile-responsive="true" data-icon-size="outline" data-toolbar="#toolbar_2" data-search="true" data-show-refresh="true"
+									data-show-toggle="true" data-show-columns="true" data-show-export="true" data-detail-view="true" data-detail-formatter="" data-minimum-count-columns="2"
+									data-show-pagination-switch="true" data-pagination="true" data-id-field="billsId" data-page-list="[10, 20]" data-show-footer="false" data-side-pagination="server"
+									data-url="/api/v1/article/getArticleList">
+								</table>
+    </div>

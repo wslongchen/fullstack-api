@@ -4,6 +4,8 @@ var dbConfig = require('../libs/db/mysql');
 var articleSQL = require('../libs/db/articlesql');
 var pool = mysql.createPool(dbConfig.mysql );
 var commons = require("../libs/core/common");
+var formidable = require("formidable");  
+var form = new formidable.IncomingForm();
 
 // 添加文章
 exports.addArticle = function(req, res, next){
@@ -76,5 +78,35 @@ exports.getArticleList = function(req, res, next){
     if(err){
        commons.resFail(res,1,"服务器连接失败："+err);
     }
+      });
+ };
+
+  // 上传图片
+exports.uploadImage = function(req, res, next){
+  var form = new formidable.IncomingForm();  
+  form.uploadDir = global.yjGlobal.config.routeDirs[2].rootDir+"\\client\\companyPic\\";    
+  form.parse(req, function(error, fields, files){  
+    var fName = (new Date()).getTime();  
+        var file = files.file;  
+        switch (file.type){  
+          case "image/jpeg":  
+              fName = fName + ".jpg";  
+              break;  
+          case "image/png":  
+              fName = fName + ".png";  
+              break;  
+          default :  
+              fName =fName + ".png";  
+              break;
+          }                         
+  var uploadDir = "\\client\\companyPic\\" + fName;
+      req.query=fields;  
+      req.query.CompanyPicAddress="\\companyPic\\" + fName; 
+      console.log("fields:"+fields+",");          
+  try{  
+      fs.renameSync(file.path, uploadDir);  
+      }catch(e){  
+        console.log(e);  
+        }  
       });
  };

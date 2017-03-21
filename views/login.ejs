@@ -1,36 +1,125 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>FullStack后台管理</title>
-  <style type="text/css" rel="stylesheet">
-    html,body{width:100%;height:100%;margin:0;padding:0;font-family:"lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;}
-    .header{height:40px;width:100%;background-color:#242424;position:fixed;}
-    .header_title{line-height:40px;margin-left:60px;color:#fff;font-size:15px;}
-    .header_user{font-size:12px;margin-left:20px;color:#ccc;}
-    .panel{width:380px;height:500px;margin-left:auto;margin-right:auto;padding-top:100px;font-size:14px;}
-    a{text-decoration: none;color:#fff;}
-    .login_input>span{display: inline-block;width:50px;}
-    input{height:28px;line-height:28px;width:300px;border:1px solid #ddd; border-radius:4px;margin-left:5px;margin-bottom:10px;outline: none;padding-left:10px;}
-  </style>
-</head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>FullStack后台管理系统 - 登录</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />    
+    
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
+    <link href="/stylesheets/bootstrap-responsive.min.css" rel="stylesheet" />
+    
+    
+    <link href="/stylesheets/font-awesome.css" rel="stylesheet" />
+    
+    <link href="/stylesheets/adminia.css" rel="stylesheet" /> 
+    <link href="/stylesheets/adminia-responsive.css" rel="stylesheet" /> 
+    
+    <link href="/stylesheets/login.css" rel="stylesheet" /> 
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+
 <body>
-<div class="header">
-  <div class="header_title"><a href="/">FullStack后台管理系统</a></div>
-</div>
-<div class="panel">
-  <div class="login_input">
-    <span>用户名</span>
-    <input id="username" placeholder="请输入用户名"/>
-  </div>
-  <div class="login_input">
-    <span>密码</span>
-    <input id="password" type="password" placeholder="请输入密码"/>
-  </div>
-  <div id="btn"  style="background-color:#3C74F2;width:306px;height:32px;line-height:32px;text-align: center;color:#fff;border-radius:4px;margin-top:30px;margin-left:60px;">
-    登录
-  </div>
-</div>
+	
+<div class="navbar navbar-fixed-top">
+	
+	<div class="navbar-inner">
+		
+		<div class="container">
+			
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span> 				
+			</a>
+			
+			<a class="brand" href="./">FullStack后台管理系统</a>
+			
+			<div class="nav-collapse">
+			
+				<ul class="nav pull-right">
+					
+					<li class="">
+						
+						<a href="javascript:;"><i class="icon-chevron-left"></i> Back to Homepage</a>
+					</li>
+				</ul>
+				
+			</div> <!-- /nav-collapse -->
+			
+		</div> <!-- /container -->
+		
+	</div> <!-- /navbar-inner -->
+	
+</div> <!-- /navbar -->
+
+
+<div id="login-container">
+	
+	
+	<div id="login-header">
+		
+		<h3>登录</h3>
+		
+	</div> <!-- /login-header -->
+	
+	<div id="login-content" class="clearfix">
+	
+	<form action="#" />
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label" for="username">用户名</label>
+						<div class="controls">
+							<input type="text" class="" id="username" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="password">密码</label>
+						<div class="controls">
+							<input type="password" class="" id="password" />
+						</div>
+					</div>
+				</fieldset>
+				
+				<div id="remember-me" class="pull-left">
+					<input type="checkbox" name="remember" id="remember" />
+					<label id="remember-label" for="remember">记住我</label>
+				</div>
+				
+				<div class="pull-right">
+					<button type="submit" class="btn btn-warning btn-large" id="btn">
+						登录
+					</button>
+				</div>
+			</form>
+			
+		</div> <!-- /login-content -->
+		
+		
+		<div id="login-extra">
+			
+			<p>Don't have an account? <a href="javascript:;">Sign Up.</a></p>
+			
+			<p>Remind Password? <a href="forgot_password.html">Retrieve.</a></p>
+			
+		</div> <!-- /login-extra -->
+	
+</div> <!-- /login-wrapper -->
+
+    
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
 <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+
 <script type="text/javascript">
 
     $('#btn').on('click', function(){
@@ -58,5 +147,6 @@
       });
     });
 </script>
-</body>
+
+  </body>
 </html>
