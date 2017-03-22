@@ -16,8 +16,11 @@ exports.startUrls = function(app) {
 	app.get("/web/member", menu.member);
 	app.get("/web/search", menu.search);
 	app.get("/web/blog", menu.blog);
+	app.get("/web/blog/single", menu.single);
 	app.get("/web/login", index.login);
 	app.get("/web/contact", menu.contact);
+
+
 	app.get("/api/index", index.main);
 	app.use("/api/v1/login", index.loginUser);
 	app.use("/api/v1/user/addUser", user.addUser);
@@ -27,4 +30,7 @@ exports.startUrls = function(app) {
 	app.use("/api/v1/member/getMemberList", member.getMemberList);
 	app.use("/api/v1/article/getArticleList", article.getArticleList);
 	app.use("/api/v1/article/uploadImage", article.uploadImage);
+	app.use("/api/v1/article/ckeditor", article.ckeditor);
+	app.use("/api/v1/article/getArticle", article.getArticle);
+	app.use("/api/v1/article/addArticle", article.addArticle);
 };

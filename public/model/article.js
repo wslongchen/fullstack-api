@@ -44,7 +44,7 @@ function bindData(data){
 							"+type+"</div>\
 							<div class='padd-box-sm'>\
 								<header class='post-header text-center'>\
-									<h2 class='post-title entry-title text-upper'><a rel='bookmark' href='single-image.html'>"+item.title+"</a></h2>\
+									<h2 class='post-title entry-title text-upper'><a rel='bookmark' href='"+item.url+"'>"+item.title+"</a></h2>\
 									<div class='post-header-info'>\
 										<span class='posted-on'><span class='screen-reader-text'>Posted on </span>\
 										<a href='' rel='bookmark'>\

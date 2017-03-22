@@ -49,3 +49,7 @@ exports.blog = function(req,res){
 exports.contact = function(req,res){
   commons.renderTemplate(res,"contact",{user:req.session.sess_admin?req.session.sess_admin:''});
 }
+
+exports.single = function(req,res){
+  commons.renderTemplate(res,"single",{user:req.session.sess_admin?req.session.sess_admin:''});
+}

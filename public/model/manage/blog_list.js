@@ -34,7 +34,7 @@ function initTable(){
 		{
             checkbox: true
             },{
-			field : "name",
+			field : "title",
 			title : "名称",
 			align : "center",
 			

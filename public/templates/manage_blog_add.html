@@ -1,9 +1,6 @@
 ﻿<script src="../js/ckeditor/ckeditor.js"></script>
 <script src="../model/manage/blog_add.js"></script>
 		<h1 class="page-title"><i class="icon-qq"></i>博客新增</h1>
-		<form id="addmerchantinfo_form" name="addmerchantinfo_form" enctype="multipart/form-data" method="post" >
-				<input type="file" name="idFile" /><div id="btn_submit2">12123232123</div>
-		</form>
 				<table class="listing form" cellpadding="0" cellspacing="0" width="100%"><tbody>
 					<tr>
 						<th class="full" colspan="3">输入信息</th>
@@ -13,10 +10,17 @@
 						<td class="last"><input class="text" type="text" id="name" width="50%"></td>
 					</tr>
 					<tr>
+						<td class="first" width="80"><strong>摘要</strong></td>
+						<td class="last"><input class="text" type="text" id="excerpt" width="50%"></td>
+					</tr>
+					<tr>
 						<td class="first"><strong>分类</strong></td>
 						<td class="last">
-							<select name="dataclass" id="dataclass">
-								<option value="0">请选择分类</option>
+							<select name="type" id="type">
+								<option value="0">文章</option>
+								<option value="1">图片</option>
+								<option value="2">多图片</option>
+								<option value="3">视频</option>
 							</select>
 						</td>
 					</tr>
@@ -29,6 +33,7 @@
 					<tr>
 						<td class="first">&nbsp;</td>
 						<td class="last">
+							<br/>
 							<input type="button" value="添加" id="btn_submit" />
 						</td>
 					</tr>

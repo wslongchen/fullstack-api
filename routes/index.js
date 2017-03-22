@@ -56,11 +56,12 @@ exports.loginUser = function(req, res) {
         if(result) {      
           if(result.length>0){
             req.session.sess_admin = {
-              name: result.userName,
-              pwd: result.password,
+              id : result[0].uid,
+              name: result[0].userName,
+              pwd: result[0].password,
               createDate: result.createDate
             };
-            commons.resSuccess(res, "登录成功",result);
+            commons.resSuccess(res, "登录成功",result[0]);
           }else{
             commons.resFail(res, 1, "用户名或密码错误");
           }
