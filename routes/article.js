@@ -47,7 +47,7 @@ exports.getArticle = function(req, res, next){
         if(result) {      
           commons.resSuccess(res, "操作成功",result); 
         }else{
-          commons.resFail(res,1,"操作失败");
+          commons.resFail(res,1,"操作失败"+err);
         }
         connection.release();  
       });

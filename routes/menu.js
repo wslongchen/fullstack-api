@@ -51,5 +51,7 @@ exports.contact = function(req,res){
 }
 
 exports.single = function(req,res){
-  commons.renderTemplate(res,"single",{user:req.session.sess_admin?req.session.sess_admin:''});
+  var param = req.query || req.params;
+  var aid=param.aid;
+  commons.renderTemplate(res,"single",{user:req.session.sess_admin?req.session.sess_admin:'',aid :aid});
 }
