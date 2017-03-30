@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/wslongchen/RedpackHelper.svg?branch=master)](https://travis-ci.org/wslongchen/RedpackHelper)
+
 #### 简介
 
 **********************************************************
