@@ -63,14 +63,22 @@ exports.getArticle = function(req, res, next){
   pool.getConnection(function(err, connection) {
     var param = req.query || req.params;
     var pageNo = param.pageNo || 1;
-    var pageSize = param.pageSize || 10;
-    var dataBegin = (pageNo -1 )*pageSize;
+    var pageSize = parseInt(param.pageSize) || 10;
+    var dataBegin = parseInt((pageNo -1 )*pageSize);
     if(connection){
-      connection.query(articleSQL.getArticleList, [pageSize,dataBegin], function(err, result) {
-        if(result) {      
-          commons.resSuccess(res, "操作成功",result); 
+      connection.query(articleSQL.getArticleListAll, function(perr, presult) {
+        if(presult) {  
+          connection.query(articleSQL.getArticleList, [pageSize,dataBegin], function(err, result) {
+            if(result) {
+              var rs={datas:result,totalCount:presult.length,pageSize:pageSize,pageNo:pageNo};
+              commons.resSuccess(res, "操作成功",rs); 
+            }else{
+              commons.resFail(res,1,"操作失败("+err+")");
+            }
+          });    
+         
         }else{
-          commons.resFail(res,1,"操作失败("+err+")");
+          commons.resFail(res,1,"操作失败("+perr+")");
         }
         connection.release();  
       });

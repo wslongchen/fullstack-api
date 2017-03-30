@@ -2,25 +2,48 @@ jQuery.ajaxSetup({
 		cache : false
 	});
 $(function() {
-	var url = '/api/v1/article/getArticleList';
+	/*var url = '/api/v1/article/getArticleList';
 	$.ajax({
 				type : "POST",
 				url : url,
 				traditional : true,
 				success : function(rs) {
 					if(rs.code ==0){
-						bindData(rs.data);
+						bindData(rs.data,1);
 					}else{
 						$("#articles").append("<label>暂无</label>");
 					}
 				}
 				
-		});				
+		});			*/	
+	directPage(1);
 });
 
-function bindData(data){
+function directPage(pageNo){
+	var pageSize=10;
+	var url = '/api/v1/article/getArticleList?pageSize='+pageSize+'&pageNo='+pageNo;
+	$.ajax({
+				type : "POST",
+				url : url,
+				traditional : true,
+				success : function(rs) {
+					if(rs.code ==0){
+						bindData(rs.data,pageNo);
+					}else{
+						$("#articles").append("<label>暂无</label>");
+					}
+				}
+				
+		});	
+}
+
+function bindData(data,no){
+	var datas=data.datas;
+	var count=data.totalCount;
+	var pageSize=data.pageSize;
 	var flag=false;
-	 $.each(data, function(index, item) {
+	var strs="";
+	 $.each(datas, function(index, item) {
 	 	var type="";
 	 	if(item.type == 3){
 	 		type = "<a href='' rel='bookmark'><figure class='post-figure'><img src='"+item.headerImage+"' alt=''></figure></a>\
@@ -72,9 +95,9 @@ function bindData(data){
 								</footer>\
 							</div>\
 						</article><!-- .post -->";
-	$("#articles").append(str);
+		strs+=str;
 	});
-
+	$("#articles").html(strs);
 	 if(flag){
 	 	$('.slider').slick({
             dots: true,
@@ -83,5 +106,19 @@ function bindData(data){
             autoplaySpeed : 3000
         });
 	 }
-	
+
+	 var pages=parseInt(count/pageSize)+1;
+	 var pagination="<a class='next page-numbers' href='#' onclick='directPage(1)'><i class='ace-icon ace-icon-chevron-left'></i></a>";
+	 for(var i=1;i<=pages;i++){
+	 	if(no==i){
+	 		pagination+="<span class='page-numbers current'>"+no+"</span>"
+	 	}else if(i==(no-1) || i==(no+1)){
+	 		pagination+="<a class='page-numbers' href='#' onclick='directPage("+i+")'>"+i+"</a>";
+	 		
+	 	}
+	 	
+	 }
+
+	pagination+="<a class='next page-numbers' href='#' onclick='directPage("+pages+")'><i class='ace-icon ace-icon-chevron-right'></i></a>"
+	$("#pager").html(pagination);
 }
