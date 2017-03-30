@@ -3,7 +3,7 @@ var config = require("../libs/core/config");
 // 导入MySQL模块
 var mysql = require('mysql');
 var dbConfig = require('../libs/db/mysql');
-var userSQL = require('../libs/db/Usersql');
+var userSQL = require('../libs/db/usersql');
 var menu = require('../libs/db/menusql');
 var pool = mysql.createPool(dbConfig.mysql );
 var crypto = require('crypto');

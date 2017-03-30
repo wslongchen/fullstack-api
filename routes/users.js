@@ -1,7 +1,7 @@
 // 导入MySQL模块
 var mysql = require('mysql');
 var dbConfig = require('../libs/db/mysql');
-var userSQL = require('../libs/db/Usersql');
+var userSQL = require('../libs/db/usersql');
 var pool = mysql.createPool(dbConfig.mysql );
 var commons = require("../libs/core/common");
 var crypto = require('crypto');
