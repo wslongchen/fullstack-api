@@ -16,6 +16,7 @@
     "ejs": "~2.5.2",
     "serve-favicon": "~2.3.2",
     "mysql": "latest",
-    "formidable" : "latest"
+    "formidable" : "latest",
+    "nodemailer" : "latest"
   }
 }

@@ -46,7 +46,7 @@ function bindData(data,no){
 	 $.each(datas, function(index, item) {
 	 	var type="";
 	 	if(item.type == 3){
-	 		type = "<a href='' rel='bookmark'><figure class='post-figure'><img src='"+item.headerImage+"' alt=''></figure></a>\
+	 		type = "<a href='"+item.url+"' rel='bookmark'><figure class='post-figure'><img src='"+item.headerImage+"' alt=''></figure></a>\
 								<span class='post-play'><i class='ace-icon ace-icon-play'></i></span>";
 	 	}else if(item.type == 2){
 	 		var imgs = item.resources.split(",");
@@ -60,7 +60,7 @@ function bindData(data,no){
 	 		}
 	 		type += "</div>";
 	 	}else if(item.type=1){
-	 		type = "<a href='' rel='bookmark'><figure class='post-figure'><img src='"+item.headerImage+"' alt=''></figure></a>";
+	 		type = "<a href='"+item.url+"' rel='bookmark'><figure class='post-figure'><img src='"+item.headerImage+"' alt=''></figure></a>";
 	 	}
 	 	var str="<article class='post hentry'>\
 							<div class='post-media'>\

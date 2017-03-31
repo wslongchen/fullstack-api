@@ -5,6 +5,7 @@ var menu = require("./menu");
 var production = require("./production");
 var member = require("./member");
 var article = require("./article");
+var mail = require("../libs/core/mail");
 
 var app = null;
 
@@ -33,4 +34,5 @@ exports.startUrls = function(app) {
 	app.use("/api/v1/article/ckeditor", article.ckeditor);
 	app.use("/api/v1/article/getArticle", article.getArticle);
 	app.use("/api/v1/article/addArticle", article.addArticle);
+	app.use("/api/v1/mail/sendMail", mail.sendMails);
 };
