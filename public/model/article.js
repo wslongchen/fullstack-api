@@ -118,7 +118,7 @@ function bindData(data,no){
 	 	}
 	 	
 	 }
-
+ 
 	pagination+="<a class='next page-numbers' href='#' onclick='directPage("+pages+")'><i class='ace-icon ace-icon-chevron-right'></i></a>"
 	$("#pager").html(pagination);
 }
