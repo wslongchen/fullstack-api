@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/wslongchen/RedpackHelper.svg?branch=master)](https://travis-ci.org/wslongchen/RedpackHelper)
+[![Build Status](https://travis-ci.org/wslongchen/fullstack-api.svg?branch=master)](https://travis-ci.org/wslongchen/fullstack-api)
 
 #### 简介
 
