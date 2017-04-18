@@ -12,11 +12,12 @@
                 <li><a><span class="ace-icon ace-icon-pinterest"></span></a></li>
             </ul>
             <p class="title text-upper">fell free to contact me the core of your marketing</p>
+            <p>有外包就赶紧留下联系方式联系我们哟</p>
         </header>
     </div>
 
     <div class="padd-box-sm">
-        <form action="/api/v1/mail/sendMail" method="post" class="contact-form">
+        <form action="" method="post" class="contact-form">
 
             <div class="form-group">
                 <label class="form-label" for="name">Your Name</label>
@@ -35,7 +36,7 @@
             <div class="form-group">
                 <label class="form-label" for="title">Subject</label>
                 <div class="form-item-wrap">
-                    <input id="title" class="form-item" type="url">
+                    <input id="title" class="form-item" type="text">
                 </div>
             </div>
 
@@ -47,7 +48,7 @@
             </div>
 
             <div class="form-submit form-item-wrap">
-                <input class="btn btn-primary btn-lg" type="submit" value="发送">
+                <input class="btn btn-primary btn-lg" type="button" value="发送" id="btn">
             </div>
         </form>
     </div>
@@ -55,5 +56,41 @@
     <div id="map" data-latitude="50.84592" data-longitude="4.366859999999974"></div>
 
 <!-- END: PAGE CONTENT -->
-
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script type="text/javascript">
+$('#btn').on('click', function(){
+      var name = $('#name').val();
+      var email = $('#email').val();
+      var title = $('#title').val();
+      var content = $('#content').val();
+      if(name=="" || email ==""|| title=="" || content==""){
+        alert("请填写完整内容！！")
+        return;
+      }
+      var obj = {
+        name: name,
+        email: email,
+        title: title,
+        content: content
+      };
+      $.ajax({
+        type: 'POST',
+        url: '/api/v1/mail/sendMail',
+        data: obj,
+        success: function(data){
+          console.log(data)
+          if(data.code==0){
+            alert("发送成功！")
+            window.location.href = '/';
+          }else{
+            alert(data.msg);
+          }
+        },
+        error: function(){
+          alert('操作失败');
+        }
+      });
+    });
+</script>
 <%include footer.ejs %>
