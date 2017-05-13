@@ -17,6 +17,8 @@ $(function() {
 });
 
 function bindData(data){
+    var falgs= new Array();
+    var str="<button data-filter='*'>all</button>";
 	 $.each(data, function(index, item) {
 	 	//图片描述
 	 	var li="<div class='pf-grid-item "+item.type+"'>\
@@ -37,6 +39,7 @@ function bindData(data){
             <div id='pf-popup-7' class='pf-popup clearfix'>\
                 <div class='pf-popup-col1'>\
                     <div class='pf-popup-media'>\
+                        
                     </div>\
                 </div><!-- .pf-popup-col1 -->\
                 <div class='pf-popup-col2'>\
@@ -57,6 +60,32 @@ function bindData(data){
             </div><!-- .pf-popup -->\
         </div>";
 	$("#products").append(li);	
+        if(falgs.length>0){
+            for(var i=0;i<falgs.length;i++){
+                if(!contains(falgs,item.type)){
+                     str+="<button data-filter='."+item.type+"'>"+item.type+"</button>";
+                    falgs[index]=item.type;
+                }
+            }
+        }else{
+                falgs[index]=item.type;
+                str+="<button data-filter='."+item.type+"'>"+item.type+"</button>";
+               // falgs.pop();
+        }
+         
+
 	});
+        
+$("#flags").append(str);  
 	
 }
+
+function contains(arr, obj) {  
+    var i = arr.length;  
+    while (i--) {  
+        if (arr[i] === obj) {  
+            return true;  
+        }  
+    }  
+    return false;  
+}  

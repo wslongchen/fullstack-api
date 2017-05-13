@@ -62,6 +62,7 @@ function queryParams(params) {
 function responseHandler(res) {
 	if(res.totalCount != null){
 		//addCookie("totalCount", res.totalCount, "24");
+		alert(res.totalCount);
 	}
 	//addCookie("totalAll", res.totalAll, "24");
 	if (res) {
