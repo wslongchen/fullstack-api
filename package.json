@@ -17,6 +17,8 @@
     "serve-favicon": "~2.3.2",
     "mysql": "latest",
     "formidable" : "latest",
-    "nodemailer" : "latest"
+    "nodemailer" : "latest",
+	"cheerio" : "latest",
+	"request" : "latest"
   }
 }

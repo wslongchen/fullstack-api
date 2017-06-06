@@ -98,13 +98,13 @@ function bindData(data,no){
 		strs+=str;
 	});
 	$("#articles").html(strs);
-	 if(flag){
+	 /*if(flag){
 	 	$('.slider').slick({
             dots: true,
             fade : true,
             autoplay:true,
             autoplaySpeed : 3000
-        });
+        });*/
 	 }
 
 	 var pages=parseInt(count/pageSize)+1;

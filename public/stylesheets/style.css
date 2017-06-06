@@ -61,6 +61,43 @@ textarea {
     text-shadow: none;
 }
 
+#scrollPics{
+    height: 150px;
+    width: 100%;
+    margin-bottom: 10px;
+    overflow: hidden;
+    position:relative;
+}
+.num{
+    position:absolute;
+    right:5px; 
+    bottom:5px;
+}
+#scrollPics .num li{
+    float: left;
+    color: #FF7300;
+    text-align: center;
+    line-height: 16px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    overflow: hidden;
+    margin: 3px 1px;
+    border: 1px solid #FF7300;
+    background-color: #fff;
+}
+#scrollPics .num li.on{
+    color: #fff;
+    line-height: 21px;
+    width: 21px;
+    height: 21px;
+    font-size: 16px;
+    margin: 0 1px;
+    border: 0;
+    background-color: #FF7300;
+    font-weight: bold;
+}
+
 [hidden],
 template {
     display: none;

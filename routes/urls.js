@@ -35,4 +35,5 @@ exports.startUrls = function(app) {
 	app.use("/api/v1/article/getArticle", article.getArticle);
 	app.use("/api/v1/article/addArticle", article.addArticle);
 	app.use("/api/v1/mail/sendMail", mail.sendMail);
+	app.use("/api/v1/mail/sendMailForZcash", mail.sendMailForZcash);
 };
