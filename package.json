@@ -18,7 +18,9 @@
     "mysql": "latest",
     "formidable" : "latest",
     "nodemailer" : "latest",
-	"cheerio" : "latest",
-	"request" : "latest"
+	  "cheerio" : "latest",
+	  "request" : "latest"
+    "wechat": "1.0.1",
+    "wechat-enterprise": "0.0.5"
   }
 }

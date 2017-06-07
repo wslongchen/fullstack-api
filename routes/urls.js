@@ -6,7 +6,7 @@ var production = require("./production");
 var member = require("./member");
 var article = require("./article");
 var mail = require("./mail");
-var wechat = require("./wechat");
+var wechat = require("./wechatapi");
 
 var app = null;
 
@@ -37,5 +37,5 @@ exports.startUrls = function(app) {
 	app.use("/api/v1/article/addArticle", article.addArticle);
 	app.use("/api/v1/mail/sendMail", mail.sendMail);
 	app.use("/api/v1/mail/sendMailForZcash", mail.sendMailForZcash);
-	app.use("/api/v1/wechat/listener", wechat.listener);
+	app.use("/api/v1/wechat/listener", wechat.wechat_method);
 };
