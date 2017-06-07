@@ -29,7 +29,7 @@ exports.listener = function(req, res, next){
          console.log("error:"+error);
     }
 };
-
+//f6a4b574b35b4da1aa1477ca193bb687
 exports.wechat_method=wechat(token, function (req,res) {
     var message=req.weixin;
     if (message && message.MsgType == 'text') {
@@ -53,7 +53,9 @@ exports.wechat_method=wechat(token, function (req,res) {
                         url: '' }
                 ]);
                 break;
-            default:    //默认回复文本消息
+            default: 
+               //默认回复文本消息
+               tulingApi(message.Content);
                 res.reply({
                     content: '消息已收到',
                     type: 'text'
@@ -64,7 +66,7 @@ exports.wechat_method=wechat(token, function (req,res) {
         switch (message.Event) {
             case 'subscribe':
                 res.reply({
-                    content: '关注事件',
+                    content: '欢迎大大关注小安安，么么哒～',
                     type: 'text'
                 });
                 break;
@@ -79,3 +81,30 @@ exports.wechat_method=wechat(token, function (req,res) {
         }
     }
 });
+
+function tulingApi(str){
+    var post_data = quetystring.stringify({
+      key: 'f6a4b574b35b4da1aa1477ca193bb687',
+      info: str
+    });
+    var options = {
+      host: 'www.tuling123.com',
+      port: 80,
+      path: '/openapi/api',
+      method: 'POST',
+      rejectUnauthorized: false,
+      headers: {
+        "Content-Type": 'application/x-www-form-urlencoded', //这个一定要有
+      }
+    };
+    var req = http.request(options, function (res) {
+      console.log('STATUS: ' + res.statusCode);
+      console.log('HEADERS: ' + JSON.stringify(res.headers));
+      res.setEncoding('utf8');
+      res.on('data', function (chunk) {
+        console.log('BODY: ' + chunk);
+      });
+    });
+    req.write(post_data);
+    req.end();
+}
