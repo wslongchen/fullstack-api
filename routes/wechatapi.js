@@ -1,5 +1,6 @@
 var crypto = require('crypto');
 var wechat = require('wechat');
+var http = require('http');
 
 var token="weixin";
 // 监听
