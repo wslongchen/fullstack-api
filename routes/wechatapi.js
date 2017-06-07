@@ -1,6 +1,7 @@
-var crypto = require('crypto');
+rypto = require('crypto');
 var wechat = require('wechat');
 var http = require('http');
+var querystring = require("querystring");
 
 var token="weixin";
 // 监听
@@ -15,7 +16,7 @@ exports.listener = function(req, res, next){
         var array = new Array(token,timestamp,nonce);
         array.sort();
         var str = array.toString().replace(/,/g,"");
-      
+
         //2. 将三个参数字符串拼接成一个字符串进行sha1加密
         var sha1Code = crypto.createHash("sha1");
         var code = sha1Code.update(str,'utf-8').digest("hex");
@@ -31,7 +32,8 @@ exports.listener = function(req, res, next){
     }
 };
 //f6a4b574b35b4da1aa1477ca193bb687
-exports.wechat_method=wechat(token, function (req,res) {
+exports.wechat_method=wechat(token,function (req,res) {
+
     var message=req.weixin;
     if (message && message.MsgType == 'text') {
         var text = '';
@@ -54,13 +56,40 @@ exports.wechat_method=wechat(token, function (req,res) {
                         url: '' }
                 ]);
                 break;
-            default: 
+            default:
                //默认回复文本消息
-               tulingApi(message.Content);
-                res.reply({
-                    content: '消息已收到',
-                    type: 'text'
+                try{
+                         var post_data = querystring.stringify({
+                        key: 'f6a4b574b35b4da1aa1477ca193bb687',
+                        info: message.Content
+                        });
+                var options = {
+                        host: 'www.tuling123.com',
+                        port: 80,
+                        path: '/openapi/api',
+                        method: 'POST',
+                        rejectUnauthorized: false,
+                        headers: {
+                                "Content-Type": 'application/x-www-form-urlencoded', //这个一定要有
+                        }
+                };
+                var req2 = http.request(options, function (res2) {
+                        res2.setEncoding('utf8');
+                        res2.on('data', function (chunk) {
+
+                        var result = eval("(" + chunk + ")");
+                         res.reply({
+                                content: result.text,
+                                type: 'text'
+                        });
                 });
+         });
+                        req2.write(post_data);
+                        req2.end();
+                }catch(e){
+                        console.log(e+"");
+                }
+
                 break;
         }
     } else if (message && message.Event) {
@@ -82,30 +111,3 @@ exports.wechat_method=wechat(token, function (req,res) {
         }
     }
 });
-
-function tulingApi(str){
-    var post_data = quetystring.stringify({
-      key: 'f6a4b574b35b4da1aa1477ca193bb687',
-      info: str
-    });
-    var options = {
-      host: 'www.tuling123.com',
-      port: 80,
-      path: '/openapi/api',
-      method: 'POST',
-      rejectUnauthorized: false,
-      headers: {
-        "Content-Type": 'application/x-www-form-urlencoded', //这个一定要有
-      }
-    };
-    var req = http.request(options, function (res) {
-      console.log('STATUS: ' + res.statusCode);
-      console.log('HEADERS: ' + JSON.stringify(res.headers));
-      res.setEncoding('utf8');
-      res.on('data', function (chunk) {
-        console.log('BODY: ' + chunk);
-      });
-    });
-    req.write(post_data);
-    req.end();
-}
