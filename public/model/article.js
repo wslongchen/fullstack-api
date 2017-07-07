@@ -98,14 +98,13 @@ function bindData(data,no){
 		strs+=str;
 	});
 	$("#articles").html(strs);
-	 /*if(flag){
+	 if(flag){
 	 	$('.slider').slick({
             dots: true,
             fade : true,
             autoplay:true,
             autoplaySpeed : 3000
-        });*/
-	 }
+        });
 
 	 var pages=parseInt(count/pageSize)+1;
 	 var pagination="<a class='next page-numbers' href='#' onclick='directPage(1)'><i class='ace-icon ace-icon-chevron-left'></i></a>";
@@ -119,6 +118,6 @@ function bindData(data,no){
 	 	
 	 }
  
-	pagination+="<a class='next page-numbers' href='#' onclick='directPage("+pages+")'><i class='ace-icon ace-icon-chevron-right'></i></a>"
+	pagination+="<a class='next page-numbers' href='#' onclick='directPage("+pages+")'><i class='ace-icon ace-icon-chevron-right'></i></a>";
 	$("#pager").html(pagination);
 }
