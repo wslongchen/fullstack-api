@@ -24,7 +24,11 @@ function bindData(data){
 	$('#single_time').html(data.data[0].createDate);
 	$('#single_author').html(data.data[0].author);
 	//$('#single_content').append(data.data[0].content);
-	$("#single_content").append(data.data[0].content);
+	var converter = new showdown.Converter();
+    //进行转换
+    var html = converter.makeHtml(data.data[0].content);
+    //展示到对应的地方  result便是id名称
+	$("#single_content").append(html);
 	$("#single_tag").html(data.data[0].tag);
 	var type=data.data[0].type;
 	var item=data.data[0];
