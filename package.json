@@ -16,12 +16,11 @@
     "ejs": "~2.5.2",
     "serve-favicon": "~2.3.2",
     "mysql": "latest",
-    "formidable" : "latest",
-    "nodemailer" : "latest",
-	  "cheerio" : "latest",
-	  "request" : "latest",
+    "formidable": "latest",
+    "nodemailer": "latest",
+    "cheerio": "latest",
+    "request": "latest",
     "wechat": "1.0.1",
-    "wechat-enterprise": "0.0.5",
-    
+    "wechat-enterprise": "0.0.5"
   }
 }

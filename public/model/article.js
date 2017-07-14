@@ -105,7 +105,7 @@ function bindData(data,no){
             autoplay:true,
             autoplaySpeed : 3000
         });
-
+	 }
 	 var pages=parseInt(count/pageSize)+1;
 	 var pagination="<a class='next page-numbers' href='#' onclick='directPage(1)'><i class='ace-icon ace-icon-chevron-left'></i></a>";
 	 for(var i=1;i<=pages;i++){
