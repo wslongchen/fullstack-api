@@ -1,0 +1,115 @@
+﻿<%include header.ejs %>
+						<!-- START: PAGE CONTENT -->
+						<article class="post hentry">
+							<div id="single_media"></div>
+
+							<div class="padd-box-sm">
+								<header class="post-header text-center">
+									<h2 class="post-title entry-title text-upper" id ="single_title"></h2>
+
+									<div class="post-header-info">
+										<span class="posted-on"><span class="screen-reader-text">发表于 </span><a
+												href="#" rel="bookmark">
+												<time class="post-date published" datetime="2016-07-04T11:33:08+00:00" id ="single_time">4 July 2016</time>
+												<time class="post-date updated" datetime="2016-12-08T14:45:55+00:00">8 December 2016</time>
+											</a></span>
+										&nbsp;<span class="post-author vcard">by <a class="url fn n" href="#" rel="author" id ="single_author">Author</a></span>
+									</div>
+								</header>
+
+								<div class="post-content entry-content editor clearfix clear-mrg" id="single_content">
+									
+								</div>
+
+								<footer class="post-footer">
+									<div class="post-footer-top brd-btm clearfix">
+										<div class="post-footer-info">
+												<span class="post-cat-links"><span class="screen-reader-text">Categories</span><a
+														href="#" rel="category tag" id="single_tag">Work</a>
+												</span><span class="post-line">|</span><a
+												href="" class="post-comments-count">24 comments</a>
+										</div>
+
+										<!--<div class="post-more">
+											<a class="btn btn-sm btn-primary" href="single-slider.html" rel="bookmark">分享</a>
+										</div>-->
+									</div>
+								</footer>
+							</div>
+						</article><!-- .post -->
+						<input id="aid" name="aid" type="hidden" value="<%=res_data.aid%>" />
+
+						<!-- END: PAGE CONTENT -->
+
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+jQuery.ajaxSetup({
+	cache : false
+});
+$(function() {
+	var aid=$("#aid").val();
+	var url = '/api/v1/article/getArticle?aid='+aid;
+	$.ajax({
+		url: url,
+		type: 'POST',
+		cache: false,
+        contentType: false, //不可缺参数
+        processData: false, //不可缺参数
+        success: function(data) {
+            bindData(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        	alert("服务器错误！");
+        }
+    });
+});
+
+function bindData(data){
+	$('#single_title').html(data.data[0].title);
+	$('#single_time').html(data.data[0].createDate);
+	$('#single_author').html(data.data[0].author);
+	//$('#single_content').append(data.data[0].content);
+	/*var converter = new showdown.Converter();
+    //进行转换
+    var html = converter.makeHtml(data.data[0].content);*/
+    //展示到对应的地方  result便是id名称
+	$("#single_content").append(data.data[0].content);
+	$("#single_tag").html(data.data[0].tag);
+	var type=data.data[0].type;
+	var item=data.data[0];
+	var media="";
+	if(type==2){
+		var imgs = item.resources.split(",");
+	 		media="<div class='post-slider slider'>";
+	 		if(imgs.length>0){
+	 			
+	 			$.each(imgs, function(index, img) {
+	 				media += "<div><a href='"+item.url+"' rel='bookmark'><img src='"+img+"' alt='123'></a></div>";
+	 			});
+	 			flag=true;
+	 		}
+	 		media += "</div>";
+	}else if(type==3){
+		media = "<a href='' rel='bookmark'><figure class='post-figure'><img src='"+item.headerImage+"' alt=''></figure></a>\
+								<span class='post-play'><i class='ace-icon ace-icon-play'></i></span>";
+	}
+	else if(type==1){
+		media = "<a href='' rel='bookmark'><figure class='post-figure'><img src='"+item.headerImage+"' alt=''></figure></a>";
+	}
+
+	var str="<div class='post-media'>\
+			"+media+"</div>";
+	if(type==0){
+		 $("#single_media").hide();
+	}else{
+		$("#single_media").append(str);
+		$('.slider').slick({
+            dots: true,
+            fade : true,
+            autoplay:true,
+            autoplaySpeed : 3000
+        });
+	}
+}
+</script>
+<%include footer.ejs %>

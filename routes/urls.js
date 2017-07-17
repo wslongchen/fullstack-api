@@ -21,6 +21,7 @@ exports.startUrls = function(app) {
 	app.get("/web/blog/single", menu.single);
 	app.get("/web/login", index.login);
 	app.get("/web/contact", menu.contact);
+	app.use("/web/single/single", menu.single_simple);
 
 
 	app.get("/api/index", index.main);

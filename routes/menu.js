@@ -55,3 +55,9 @@ exports.single = function(req,res){
   var aid=param.aid;
   commons.renderTemplate(res,"single",{user:req.session.sess_admin?req.session.sess_admin:'',aid :aid});
 }
+
+exports.single_simple = function(req,res){
+  var param = req.query || req.params;
+  var sid=param.sid;
+  commons.renderTemplate(res,"single-simple",{user:req.session.sess_admin?req.session.sess_admin:'',sid :sid});
+}
