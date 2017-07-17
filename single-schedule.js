@@ -1,9 +1,7 @@
     // 导入MySQL模块
     var mysql = require('mysql');
   var dbConfig = require('./libs/db/mysql');
-  var articleSQL = require('./libs/db/single-simple');
-  var pool = mysql.createPool(dbConfig.mysql );
-  var cfg = require("./libs/core/config");
+  var single = require('./routes/single');
   var formidable = require("formidable");
   var cheerio = require('cheerio');
   var fs = require('fs');
@@ -39,7 +37,6 @@
   }
 
  function addArticle(title,content){
-    var id="a"+Date.now();
           var author = "MrPan";
           var tag = "Aritle,Study";
           var type = "0";
@@ -48,20 +45,5 @@
           var headerImage = "";
           var resources ="";
           var remark = "";
-          pool.getConnection(function(err, connection) {  
-          var date = new Date();
-          if(connection){
-            connection.query(articleSQL.insert, [id,title,date,date,author,tag,type,excerpt,content,url,headerImage,resources,remark], function(err, result) {
-              if(result) {
-               console.log("插入成功"); 
-              }else{
-                 console.log("插入失败："+err);
-              }
-              connection.release();  
-            });
-          }
-          if(err){
-             console.log("服务器连接失败："+err);
-          }
-        });
+          single.addSingle();
   }
