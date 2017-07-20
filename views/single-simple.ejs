@@ -47,8 +47,17 @@ jQuery.ajaxSetup({
 	cache : false
 });
 $(function() {
-	var aid=$("#aid").val();
-	var url = '/api/v1/article/getArticle?aid='+aid;
+	var date = new Date();
+	var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+	var str = date.getFullYear()+'-'+month + '-'+ strDate;
+	var url = '/api/v1/single/getSingleListByDate?isRead=0&date='+str;
 	$.ajax({
 		url: url,
 		type: 'POST',
@@ -56,7 +65,7 @@ $(function() {
         contentType: false, //不可缺参数
         processData: false, //不可缺参数
         success: function(data) {
-            bindData(data);
+            bindData(data.data);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
         	alert("服务器错误！");
@@ -65,18 +74,18 @@ $(function() {
 });
 
 function bindData(data){
-	$('#single_title').html(data.data[0].title);
-	$('#single_time').html(data.data[0].createDate);
-	$('#single_author').html(data.data[0].author);
-	//$('#single_content').append(data.data[0].content);
+	$('#single_title').html(data.datas[0].title);
+	$('#single_time').html(data.datas[0].createDate);
+	$('#single_author').html(data.datas[0].author);
+	//$('#single_content').append(data.datas[0].content);
 	/*var converter = new showdown.Converter();
     //进行转换
-    var html = converter.makeHtml(data.data[0].content);*/
+    var html = converter.makeHtml(data.datas[0].content);*/
     //展示到对应的地方  result便是id名称
-	$("#single_content").append(data.data[0].content);
-	$("#single_tag").html(data.data[0].tag);
-	var type=data.data[0].type;
-	var item=data.data[0];
+	$("#single_content").html(data.datas[0].content);
+	$("#single_tag").html(data.datas[0].tag);
+	var type=data.datas[0].type;
+	var item=data.datas[0];
 	var media="";
 	if(type==2){
 		var imgs = item.resources.split(",");

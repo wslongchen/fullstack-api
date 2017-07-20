@@ -7,6 +7,7 @@ var userSQL = require('../libs/db/usersql');
 var menu = require('../libs/db/menusql');
 var pool = mysql.createPool(dbConfig.mysql );
 var crypto = require('crypto');
+var http = require('http');
 
 //WEB
 exports.index = function(req,res){

@@ -5,6 +5,7 @@ var menu = require("./menu");
 var production = require("./production");
 var member = require("./member");
 var article = require("./article");
+var single = require("./single");
 var mail = require("./mail");
 var wechat = require("./wechatapi");
 
@@ -25,6 +26,7 @@ exports.startUrls = function(app) {
 
 
 	app.get("/api/index", index.main);
+	app.get("/api/wechat", wechat.wechat);
 	app.use("/api/v1/login", index.loginUser);
 	app.use("/api/v1/user/addUser", user.addUser);
 	app.use("/api/v1/user/getUserInfoList", user.getUserInfoList);
@@ -39,4 +41,9 @@ exports.startUrls = function(app) {
 	app.use("/api/v1/mail/sendMail", mail.sendMail);
 	app.use("/api/v1/mail/sendMailForZcash", mail.sendMailForZcash);
 	app.use("/api/v1/wechat/listener", wechat.wechat_method);
+
+	app.use("/api/v1/single/addSingle", single.addSingle);
+	app.use("/api/v1/single/getSingle", single.getSingle);
+	app.use("/api/v1/single/getSingleList", single.getSingleList);
+	app.use("/api/v1/single/getSingleListByDate", single.getSingleListByDate);
 };

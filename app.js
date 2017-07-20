@@ -16,10 +16,10 @@ app.use(cookieParser());
 app.use(session({
   keys: ["fullstack"]
 }));
-
+urls.startUrls(app);
 app.use(express.static(path.join(__dirname, 'public')));
 ///=======路由信息 （接口地址）开始 存放在./routes目录下===========//
-urls.startUrls(app);
+
 ///=======路由信息 （接口地址 介绍===========//
 
 ///=======模板 开始===========//

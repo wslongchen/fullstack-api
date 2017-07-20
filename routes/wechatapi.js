@@ -2,7 +2,12 @@ rypto = require('crypto');
 var wechat = require('wechat');
 var http = require('http');
 var querystring = require("querystring");
+const Wechat = require('webwx-api');
+const fs = require('fs')
 
+let w = new Wechat();
+sendMsgCheckStatus();
+return;
 var token="weixin";
 // 监听
 exports.listener = function(req, res, next){
@@ -31,6 +36,7 @@ exports.listener = function(req, res, next){
          console.log("error:"+error);
     }
 };
+
 //f6a4b574b35b4da1aa1477ca193bb687
 exports.wechat_method=wechat(token,function (req,res) {
 
@@ -111,3 +117,97 @@ exports.wechat_method=wechat(token,function (req,res) {
         }
     }
 });
+
+//wechat
+exports.wechat = function(req, res) {
+    w.start();
+    w.on('uuid', uuid => {
+      res.redirect(302, 'https://login.weixin.qq.com/qrcode/' + uuid);
+    });
+
+    bot.on('contacts-updated', contacts => {
+      console.log('联系人数量：', Object.keys(bot.contacts).length)
+    })
+
+    bot.on('login', () => {
+      console.log('登录了')
+    })
+
+    bot.on('message', msg => {
+      /**
+       * 获取消息时间
+       */
+       /* console.log(`[*]----------${msg.getDisplayTime()}----------`)*/
+       
+    let config = JSON.parse(fs.readFileSync('./data.json'));
+      /**
+       * 判断消息类型
+       */
+      switch (msg.MsgType) {
+
+        case bot.conf.MSGTYPE_TEXT:
+        
+         /**
+         * 获取消息发送者的显示名
+         */
+         if(bot.contacts[msg.FromUserName].isSelf){
+          //本人
+          console.log('回复消息给：'+bot.contacts[msg.ToUserName].NickName)
+         }else{
+            if(bot.contacts[msg.FromUserName].getDisplayName() === config.manageWechat){
+                //发送给指定公众号，获取口令
+                let m=msg.Content.split(':\n');
+                if(m == config.checkSign){
+                    //口令一致，开始检测好友状态，通过发送消息的形式。
+                    sendMsgCheckStatus();
+                }
+            }
+          console.log('发送人：'+bot.contacts[msg.FromUserName].getDisplayName())
+         }
+          break
+        case bot.conf.MSGTYPE_IMAGE:
+
+          break
+        case bot.conf.MSGTYPE_VOICE:
+          break
+        case bot.conf.MSGTYPE_EMOTICON:
+
+          break
+        case bot.conf.MSGTYPE_VIDEO:
+        case bot.conf.MSGTYPE_MICROVIDEO:
+
+          break
+        case bot.conf.MSGTYPE_APP:
+          if (msg.AppMsgType == 6) {
+
+          }
+          break
+        default:
+          break
+      }
+     
+    })
+};
+
+
+
+//发送消息检查好友状态
+function sendMsgCheckStatus(){
+    let SPECIALUSERS = ['newsapp', 'fmessage', 'filehelper', 'weibo', 'qqmail', 'fmessage', 'tmessage',
+    'qmessage', 'qqsync', 'floatbottle', 'lbsapp', 'shakeapp', 'medianote', 'qqfriend',
+    'readerapp', 'blogapp', 'facebookapp', 'masssendapp', 'meishiapp', 'feedsapp', 'voip',
+    'blogappweixin', 'weixin', 'brandsessionholder', 'weixinreminder', 'wxid_novlwrv3lqwv11',
+    'gh_22b87fa7cb3c', 'officialaccounts', 'notification_messages', 'wxid_novlwrv3lqwv11',
+    'gh_22b87fa7cb3c', 'wxitil', 'userexperience_alarm', 'notification_messages'
+  ];
+    let contacts = JSON.parse(fs.readFileSync('./contacts.json'));
+    console.log(Object.keys(contacts).length);
+    for (let x in contacts){
+      //遍历每一个联系人
+      if(!contacts[x].UserName.startsWith('@@') && contacts[x].VerifyFlag == 0 && SPECIALUSERS.indexOf(contacts[x].UserName) == -1 && !contacts[x].isSelf){
+        //非群聊,非公众号,非自己，非特殊帐号
+        console.log('NickName:'+contacts[x].NickName+',RemarkName:'+contacts[x].RemarkName+',VerifyFlag:'+contacts[x].VerifyFlag+',DisplayName:'+contacts[x].DisplayName+',StarFriend:'+contacts[x].StarFriend)
+        
+      }
+    }
+}

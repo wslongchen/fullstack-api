@@ -5,6 +5,8 @@ module.exports =
 		user : 'root',
 		password : '123456',
 		database : 'fullstack',
-		port : 3306 
+		port : 3306 ,
+		dateStrings : true,
+		debug : false
 	}
 };
