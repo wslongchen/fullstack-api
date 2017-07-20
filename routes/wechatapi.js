@@ -4,10 +4,9 @@ var http = require('http');
 var querystring = require("querystring");
 const Wechat = require('webwx-api');
 const fs = require('fs')
+let config = JSON.parse(fs.readFileSync('./data.json'));
+let bot = new Wechat();
 
-let w = new Wechat();
-sendMsgCheckStatus();
-return;
 var token="weixin";
 // 监听
 exports.listener = function(req, res, next){
@@ -120,8 +119,8 @@ exports.wechat_method=wechat(token,function (req,res) {
 
 //wechat
 exports.wechat = function(req, res) {
-    w.start();
-    w.on('uuid', uuid => {
+    bot.start();
+    bot.on('uuid', uuid => {
       res.redirect(302, 'https://login.weixin.qq.com/qrcode/' + uuid);
     });
 
@@ -134,6 +133,7 @@ exports.wechat = function(req, res) {
     })
 
     bot.on('message', msg => {
+    console.log(msg)
       /**
        * 获取消息时间
        */
@@ -168,6 +168,11 @@ exports.wechat = function(req, res) {
         case bot.conf.MSGTYPE_IMAGE:
 
           break
+        case 10000:
+        	if(msg.Status == 4){
+        		//被拒收，或者拉黑了
+        	}
+          break
         case bot.conf.MSGTYPE_VOICE:
           break
         case bot.conf.MSGTYPE_EMOTICON:
@@ -182,6 +187,7 @@ exports.wechat = function(req, res) {
 
           }
           break
+        case bot.conf.
         default:
           break
       }
