@@ -1,13 +1,24 @@
 rypto = require('crypto');
+var mysql = require('mysql');
 var wechat = require('wechat');
 var http = require('http');
 var querystring = require("querystring");
 const Wechat = require('webwx-api');
+var mailer = require("../libs/core/mail");
+var wechatSql = require('../libs/db/wechatsql');
 const fs = require('fs')
+var dbConfig = require('../libs/db/mysql');
+var pool = mysql.createPool(dbConfig.mysql );
+
 let config = JSON.parse(fs.readFileSync('./data.json'));
 let bot = new Wechat();
-
+let delName = new Array();
+let breakName = new Array();
+let currentName ="";
 var token="weixin";
+addData('nickName','sex','headImgUrl','delFriendName','breFriendName','delFriendCount','breFriendCount')
+
+return;
 // 监听
 exports.listener = function(req, res, next){
     try{
@@ -119,6 +130,9 @@ exports.wechat_method=wechat(token,function (req,res) {
 
 //wechat
 exports.wechat = function(req, res) {
+    delName = new Array();
+    breakName = new Array();
+    currentName = "";
     bot.start();
     bot.on('uuid', uuid => {
       res.redirect(302, 'https://login.weixin.qq.com/qrcode/' + uuid);
@@ -133,7 +147,6 @@ exports.wechat = function(req, res) {
     })
 
     bot.on('message', msg => {
-    console.log(msg)
       /**
        * 获取消息时间
        */
@@ -160,6 +173,8 @@ exports.wechat = function(req, res) {
                 if(m == config.checkSign){
                     //口令一致，开始检测好友状态，通过发送消息的形式。
                     sendMsgCheckStatus();
+                    //并发送邮件通知已经开始扫描
+                    sendMail(bot.user.NickName,"开始检测"+bot.user.NickName+"的好友状态，并进行备注清理！")
                 }
             }
           console.log('发送人：'+bot.contacts[msg.FromUserName].getDisplayName())
@@ -171,6 +186,16 @@ exports.wechat = function(req, res) {
         case 10000:
         	if(msg.Status == 4){
         		//被拒收，或者拉黑了
+            //更改备注
+            //let m=msg.Content.split(':\n');
+             let name = bot.contacts[msg.FromUserName].getDisplayName()
+            if(msg.Content.valueOf('拒收') > -1){
+              bot.updateRemarkName(msg.ToUserName,'僵尸-'+'拉黑-'+ name)
+              breakName.push(name)
+            }else{
+              bot.updateRemarkName(msg.ToUserName,'僵尸-'+'被删-'+ name)
+              delName.push(name)
+            }
         	}
           break
         case bot.conf.MSGTYPE_VOICE:
@@ -187,14 +212,19 @@ exports.wechat = function(req, res) {
 
           }
           break
-        case bot.conf.
         default:
           break
       }
-     
     })
 };
 
+
+exports.wechatout = function(req, res) {
+    bot.stop();
+    bot.on('logout', () => {
+      console.log('退出登录');
+    })
+};
 
 
 //发送消息检查好友状态
@@ -206,14 +236,57 @@ function sendMsgCheckStatus(){
     'gh_22b87fa7cb3c', 'officialaccounts', 'notification_messages', 'wxid_novlwrv3lqwv11',
     'gh_22b87fa7cb3c', 'wxitil', 'userexperience_alarm', 'notification_messages'
   ];
-    let contacts = JSON.parse(fs.readFileSync('./contacts.json'));
+    let contacts = bot.contacts;
     console.log(Object.keys(contacts).length);
+    let i =1;
     for (let x in contacts){
       //遍历每一个联系人
       if(!contacts[x].UserName.startsWith('@@') && contacts[x].VerifyFlag == 0 && SPECIALUSERS.indexOf(contacts[x].UserName) == -1 && !contacts[x].isSelf){
         //非群聊,非公众号,非自己，非特殊帐号
         console.log('NickName:'+contacts[x].NickName+',RemarkName:'+contacts[x].RemarkName+',VerifyFlag:'+contacts[x].VerifyFlag+',DisplayName:'+contacts[x].DisplayName+',StarFriend:'+contacts[x].StarFriend)
-        
+        //发送消息
+        const rs = fs.createReadStream("./qr.jpg");
+        bot.sendMsg({file:rs,filename:'qr.jpg'},contacts[x].UserName)
+      }
+      if(Object.keys(bot.contacts).length ==i){
+        //最后一个人
+        currentName = contacts[x].UserName
+        sendMail(bot.user.NickName,"结束"+bot.user.NickName+"的好友状态，拉黑的共"+breakName.length+"人，删除的共"+delName.length+"人，并进行了备注！")
+        addData(bot.user.NickName,bot.user.Sex,bot.user.HeadImgUrl,delName.toString(),breakName.toString(),delName.length,breakName.length)
+      }else{
+        i++;
       }
     }
 }
+
+function sendMail(name,content){
+  mailer.send(name,name+"的好友清理",content,function(err,info){
+    if (err) {
+      console.log('发送邮件通知出错');
+      return;
+    }else{
+      console.log('发送邮件通知成功')
+    }
+  });
+}
+
+
+// 添加
+function addData(nickName,sex,headImgUrl,delFriendName,breFriendName,delFriendCount,breFriendCount){
+pool.getConnection(function(err, connection) {   
+    var date = new Date();
+    if(connection){
+      connection.query(wechatSql.insert, [nickName,sex,headImgUrl,delFriendName,breFriendName,delFriendCount,breFriendCount,date], function(err, result) {
+        if(result) {
+          console.log("插入成功"); 
+        }else{
+          console.log("插入失败："+err);
+        }
+        connection.release();  
+      });
+    }
+    if(err){
+      console.log("服务器连接失败："+err);
+    }
+  });
+};

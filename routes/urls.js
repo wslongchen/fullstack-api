@@ -27,6 +27,7 @@ exports.startUrls = function(app) {
 
 	app.get("/api/index", index.main);
 	app.get("/api/wechat", wechat.wechat);
+	app.get("/api/wechatout", wechat.wechatout);
 	app.use("/api/v1/login", index.loginUser);
 	app.use("/api/v1/user/addUser", user.addUser);
 	app.use("/api/v1/user/getUserInfoList", user.getUserInfoList);
