@@ -20,7 +20,7 @@
     "nodemailer": "latest",
     "request": "latest",
     "serve-favicon": "~2.3.2",
-    "webwx-api": "^1.0.18",
+    "webwx-api": "^1.0.19",
     "wechat": "1.0.1",
     "wechat-enterprise": "0.0.5"
   }

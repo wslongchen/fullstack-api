@@ -10,15 +10,15 @@ const fs = require('fs')
 var dbConfig = require('../libs/db/mysql');
 var pool = mysql.createPool(dbConfig.mysql );
 
-let config = JSON.parse(fs.readFileSync('./data.json'));
+//let config = JSON.parse(fs.readFileSync('./data.json'));
 let bot = new Wechat();
 let delName = new Array();
 let breakName = new Array();
 let currentName ="";
+let currentThreadId = '';
 var token="weixin";
-addData('nickName','sex','headImgUrl','delFriendName','breFriendName','delFriendCount','breFriendCount')
+//addData('nickName','sex','headImgUrl','delFriendName','breFriendName','delFriendCount','breFriendCount')
 
-return;
 // 监听
 exports.listener = function(req, res, next){
     try{
@@ -133,12 +133,24 @@ exports.wechat = function(req, res) {
     delName = new Array();
     breakName = new Array();
     currentName = "";
+    if(currentThreadId!=''){
+    	res.send('当前已经有人在使用，请稍后再尝试。');
+    	return;
+    }
+    currentThreadId = '123';
     bot.start();
     bot.on('uuid', uuid => {
       res.redirect(302, 'https://login.weixin.qq.com/qrcode/' + uuid);
     });
+};
 
-    bot.on('contacts-updated', contacts => {
+
+exports.wechatout = function(req, res) {
+    bot.stop();
+    currentThreadId = '';
+};
+
+bot.on('contacts-updated', contacts => {
       console.log('联系人数量：', Object.keys(bot.contacts).length)
     })
 
@@ -185,14 +197,14 @@ exports.wechat = function(req, res) {
           break
         case 10000:
         	if(msg.Status == 4){
-        		//被拒收，或者拉黑了
+        		//被拒收，或者拉黑了//消息已发出，但被对方拒收了//验证
             //更改备注
             //let m=msg.Content.split(':\n');
              let name = bot.contacts[msg.FromUserName].getDisplayName()
             if(msg.Content.valueOf('拒收') > -1){
               bot.updateRemarkName(msg.ToUserName,'僵尸-'+'拉黑-'+ name)
               breakName.push(name)
-            }else{
+            }else if(msg.Content.valueOf('验证') > -1){
               bot.updateRemarkName(msg.ToUserName,'僵尸-'+'被删-'+ name)
               delName.push(name)
             }
@@ -216,16 +228,11 @@ exports.wechat = function(req, res) {
           break
       }
     })
-};
 
-
-exports.wechatout = function(req, res) {
-    bot.stop();
-    bot.on('logout', () => {
+bot.on('logout', () => {
       console.log('退出登录');
+      currentThreadId = '';
     })
-};
-
 
 //发送消息检查好友状态
 function sendMsgCheckStatus(){
@@ -252,7 +259,7 @@ function sendMsgCheckStatus(){
         //最后一个人
         currentName = contacts[x].UserName
         sendMail(bot.user.NickName,"结束"+bot.user.NickName+"的好友状态，拉黑的共"+breakName.length+"人，删除的共"+delName.length+"人，并进行了备注！")
-        addData(bot.user.NickName,bot.user.Sex,bot.user.HeadImgUrl,delName.toString(),breakName.toString(),delName.length,breakName.length)
+        //addData(bot.user.NickName,bot.user.Sex,bot.user.HeadImgUrl,delName.toString(),breakName.toString(),delName.length,breakName.length)
       }else{
         i++;
       }
@@ -271,7 +278,7 @@ function sendMail(name,content){
 }
 
 
-// 添加
+/*// 添加
 function addData(nickName,sex,headImgUrl,delFriendName,breFriendName,delFriendCount,breFriendCount){
 pool.getConnection(function(err, connection) {   
     var date = new Date();
@@ -289,4 +296,4 @@ pool.getConnection(function(err, connection) {
       console.log("服务器连接失败："+err);
     }
   });
-};
+};*/
